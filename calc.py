@@ -1,36 +1,18 @@
 from kivy.app import App
+from kivy.uix.textinput import TextInput
+from kivy.lang import Builder
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button
-from kivy.uix.textinput import TextInput
 
+# Load the external KV file
+Builder.load_file('calculator.kv')
+
+# Main app
 class CalculatorApp(App):
     def build(self):
         self.operations = ""
-        self.result = TextInput(font_size=32, readonly=True, halign='right', multiline=False)
-        layout = GridLayout(cols=4, spacing=2)
-        buttons = [
-            '7', '8', '9', '/',
-            '4', '5', '6', '*',
-            '1', '2', '3', '-',
-            'C', '0', '=', '+'
-        ]
-        
-        for button in buttons:
-            button_widget = Button(text=button, pos_hint={'center_x': 0.5, 'center_y': 0.5})
-            button_widget.bind(on_press=self.on_button_press)
-            layout.add_widget(button_widget)
-        
-        clear_button = Button(text="Clear", pos_hint={'center_x': 0.5, 'center_y': 0.5})
-        clear_button.bind(on_press=self.on_clear_press)
-        layout.add_widget(clear_button)
-        
-        equals_button = Button(text="=", pos_hint={'center_x': 0.5, 'center_y': 0.5})
-        equals_button.bind(on_press=self.on_solution)
-        layout.add_widget(equals_button)
-
-        layout.add_widget(self.result)
-
-        return layout
+        self.result = self.root.ids.result
+        return
 
     def on_button_press(self, instance):
         current = self.result.text
@@ -51,6 +33,7 @@ class CalculatorApp(App):
         except Exception:
             self.result.text = "Error"
 
+# Start app
 if __name__ == '__main__':
     app = CalculatorApp()
     app.run()
